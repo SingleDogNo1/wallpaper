@@ -1,0 +1,47 @@
+{
+  "name": "electron-vue-vite",
+  "version": "1.0.0",
+  "main": "dist/main/index.cjs",
+  "author": "singleDogNo.1 <1418291550@qq.com>",
+  "description": "hello, world",
+  "license": "MIT",
+  "keywords": [
+    "vite",
+    "electron",
+    "vue3",
+    "rollup"
+  ],
+  "engines": {
+    "node": ">=14.17.0"
+  },
+  "env": {
+    "VITE_DEV_SERVER_HOST": "127.0.0.1",
+    "VITE_DEV_SERVER_PORT": 3344
+  },
+  "scripts": {
+    "dev": "node scripts/watch.mjs",
+    "prebuild": "vue-tsc --noEmit --p packages/renderer/tsconfig.json && node scripts/build.mjs",
+    "build": "electron-builder",
+    "init": "git config core.hooksPath .git/hooks/ && rm -rf .git/hooks && npx simple-git-hooks",
+    "test:e2e": "npx playwright test",
+    "test:e2e:headless": "npx playwright test --headed"
+  },
+  "dependencies": {
+    "sqlite3": "^5.0.2"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.20.0",
+    "@types/sqlite3": "^3.1.8",
+    "@vitejs/plugin-vue": "^2.2.4",
+    "electron": "^17.1.2",
+    "electron-builder": "^22.14.13",
+    "electron-devtools-installer": "^3.2.0",
+    "nano-staged": "^0.6.0",
+    "simple-git-hooks": "^2.7.0",
+    "typescript": "^4.6.2",
+    "vite": "^2.8.6",
+    "vite-plugin-resolve": "^2.0.1",
+    "vue": "^3.2.31",
+    "vue-tsc": "^0.33.5"
+  }
+}
