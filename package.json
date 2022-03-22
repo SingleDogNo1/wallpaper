@@ -27,7 +27,14 @@
     "test:e2e:headless": "npx playwright test --headed",
     "lint:stylelint": "stylelint \"**/*.{vue,postcss,css,scss}\" --fix",
     "lint:eslint": "eslint \"{packages,scripts}/**/*.{vue,ts,tsx,js,jsx,css,scss,postcss}\" --fix",
-    "lint": "yarn lint:eslint && yarn lint:stylelint"
+    "lint": "yarn lint:eslint && yarn lint:stylelint",
+    "prepare": "husky install",
+    "commit": "git-cz"
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-customizable"
+    }
   },
   "dependencies": {
     "sqlite3": "^5.0.2"
