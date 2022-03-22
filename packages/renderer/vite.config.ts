@@ -1,8 +1,8 @@
-import { builtinModules } from 'module'
-import { defineConfig, Plugin } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import resolve from 'vite-plugin-resolve'
-import pkg from '../../package.json'
+import { builtinModules } from 'module';
+import { defineConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
+import resolve from 'vite-plugin-resolve';
+import pkg from '../../package.json';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -21,35 +21,35 @@ export default defineConfig({
        * }
        */
       {
-        sqlite3: 'const sqlite3 = require("sqlite3"); export default sqlite3;'
-      }
-    )
+        sqlite3: 'const sqlite3 = require("sqlite3"); export default sqlite3;',
+      },
+    ),
   ],
   base: './',
   build: {
     sourcemap: true,
-    outDir: '../../dist/renderer'
+    outDir: '../../dist/renderer',
   },
   server: {
     host: pkg.env.VITE_DEV_SERVER_HOST,
-    port: pkg.env.VITE_DEV_SERVER_PORT
-  }
-})
+    port: pkg.env.VITE_DEV_SERVER_PORT,
+  },
+});
 
 /**
  * For usage of Electron and NodeJS APIs in the Renderer process
  * @see https://github.com/caoxiemeihao/electron-vue-vite/issues/52
  */
 export function resolveElectron(resolves: Parameters<typeof resolve>[0] = {}) {
-  const builtins = builtinModules.filter(t => !t.startsWith('_'))
+  const builtins = builtinModules.filter((t) => !t.startsWith('_'));
   /**
    * @see https://github.com/caoxiemeihao/vite-plugins/tree/main/packages/resolve#readme
    */
   return resolve({
     electron: electronExport(),
     ...builtinModulesExport(builtins),
-    ...resolves
-  })
+    ...resolves,
+  });
 
   function electronExport() {
     return `
@@ -81,29 +81,29 @@ export {
   desktopCapturer,
   deprecate,
 }
-`
+`;
   }
 
   function builtinModulesExport(modules: string[]) {
     return modules
-      .map(moduleId => {
-        const nodeModule = require(moduleId)
-        const requireModule = `const M = require("${moduleId}");`
-        const exportDefault = `export default M;`
+      .map((moduleId) => {
+        const nodeModule = require(moduleId);
+        const requireModule = `const M = require("${moduleId}");`;
+        const exportDefault = `export default M;`;
         const exportMembers =
           Object.keys(nodeModule)
-            .map(attr => `export const ${attr} = M.${attr}`)
-            .join(';\n') + ';'
+            .map((attr) => `export const ${attr} = M.${attr}`)
+            .join(';\n') + ';';
         const nodeModuleCode = `
 ${requireModule}
 
 ${exportDefault}
 
 ${exportMembers}
-`
+`;
 
-        return { [moduleId]: nodeModuleCode }
+        return { [moduleId]: nodeModuleCode };
       })
-      .reduce((memo, item) => Object.assign(memo, item), {})
+      .reduce((memo, item) => Object.assign(memo, item), {});
   }
 }

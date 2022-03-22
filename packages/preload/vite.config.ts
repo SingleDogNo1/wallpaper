@@ -1,6 +1,6 @@
-import { builtinModules } from 'module'
-import { defineConfig } from 'vite'
-import pkg from '../../package.json'
+import { builtinModules } from 'module';
+import { defineConfig } from 'vite';
+import pkg from '../../package.json';
 
 export default defineConfig({
   root: __dirname,
@@ -15,11 +15,7 @@ export default defineConfig({
     // https://github.com/caoxiemeihao/electron-vue-vite/issues/61
     sourcemap: 'inline',
     rollupOptions: {
-      external: [
-        'electron',
-        ...builtinModules,
-        ...Object.keys(pkg.dependencies || {}),
-      ],
+      external: ['electron', ...builtinModules, ...Object.keys(pkg.dependencies || {})],
     },
   },
-})
+});
