@@ -45,6 +45,10 @@ export default defineConfig({
         find: /@\//,
         replacement: pathResolve('packages/renderer/src') + '/',
       },
+      {
+        find: /#\//,
+        replacement: pathResolve('types') + '/',
+      },
     ],
   },
 });

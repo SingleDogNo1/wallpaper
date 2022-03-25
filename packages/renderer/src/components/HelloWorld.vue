@@ -9,10 +9,15 @@
 
 <script setup lang="ts">
   import { ref } from 'vue';
+  import { getImageTypeApi } from '@/api/index';
 
   defineProps<{ msg: string }>();
 
   const count = ref(0);
+
+  getImageTypeApi().then((res) => {
+    console.log('res :>> ', res);
+  });
 </script>
 
 <style scoped>
