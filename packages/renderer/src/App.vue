@@ -1,30 +1,49 @@
 <template>
-  <div class="logo-box">
-    <img style="height: 140px" src="./assets/electron.png" />
-    <span></span>
-    <img style="height: 140px" src="./assets/vite.svg" />
-    <span></span>
-    <img style="height: 140px" src="./assets/vue.png" />
-  </div>
-  <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />
-  <div class="static-public">
-    Place static files into the <code>src/renderer/public</code> folder
-    <img style="width: 90px" :src="'./images/node.png'" />
+  <select name="" id="">
+    <option v-for="item in imageTypeList" :key="item.id" :value="item.id">{{ item.name }}</option>
+  </select>
+  <div>
+    <img v-for="item in imageList" :key="item.id" :src="item.url" :alt="item.tag" />
   </div>
 </template>
 
 <script setup lang="ts">
-  import HelloWorld from '@/components/HelloWorld.vue';
+  import { onMounted, ref } from 'vue';
+  import { getImageTypeApi, getImageListApi } from './api';
+  import { setWallpaper } from 'wallpaper';
+
+  const imageTypeList = ref<any>([]);
+  const imageList = ref<any>([]);
+
+  onMounted(async () => {
+    try {
+      const { data: imageTypes } = await getImageTypeApi();
+      imageTypeList.value = imageTypes;
+      const id = imageTypes[0].id;
+
+      const {
+        data: { data },
+      } = await getImageListApi(id);
+
+      setWallpaper(data[0].url).then((data) => {
+        console.log('data :>> ', data);
+      });
+
+      console.log('imageList :>> ', data);
+      imageList.value = data;
+    } catch (error) {
+      throw error;
+    }
+  });
 </script>
 
 <style>
   #app {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
+    font-family: Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     color: #2c3e50;
-    margin-top: 60px;
   }
 
   .logo-box {

@@ -1,4 +1,4 @@
-import { app, BrowserWindow, shell } from 'electron';
+import { app, BrowserWindow, shell, screen } from 'electron';
 import { release } from 'os';
 import { join } from 'path';
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer';
@@ -18,10 +18,11 @@ process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
 let win: BrowserWindow | null = null;
 
 async function createWindow() {
+  const { width, height } = screen.getPrimaryDisplay().workAreaSize;
   win = new BrowserWindow({
     title: 'Main window',
-    width: 800,
-    height: 600,
+    width,
+    height,
     webPreferences: {
       preload: join(__dirname, '../preload/index.cjs'),
       nodeIntegration: true,
